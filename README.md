@@ -27,8 +27,8 @@ Open the generated archi.html in your favourite browser.
 
 You should see something like this:
 
-![Example graph](https://rawgithub.com/Macroz/archi/examples/archi.svg)
-[Example HTML](https://rawgithub.com/Macroz/archi/examples/archi.html)
+![Example graph](https://rawgithub.com/Macroz/archi/examples/tree/master/archi.svg)
+[Example HTML](https://rawgithub.com/Macroz/archi/examples/tree/master/archi.html)
 
 See also [archi-example](http://www.github.com/Macroz/archi-example).
 
