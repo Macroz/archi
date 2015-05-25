@@ -1,4 +1,4 @@
-archi  [![Build Status](https://travis-ci.org/Macroz/archi.svg?branch=master)](https://travis-ci.org/Macroz/archi) [![Clojars Project](http://clojars.org/macroz/archi/latest-version.svg)](http://clojars.org/macroz/archi)
+archi  [![Build Status](https://travis-ci.org/Macroz/archi.svg?branch=master)](https://travis-ci.org/Macroz/archi)
 =====
 
 > Draw (architecture) diagrams as easily as Archi.
@@ -8,7 +8,9 @@ Use a convenient DSL for describing your diagrams and get an interactive HTML vi
 Usage
 -----
 
-Add to your project.clj:
+Add to your project.clj
+[![Clojars Project](http://clojars.org/macroz/archi/latest-version.svg)](http://clojars.org/macroz/archi)
+
 
 ```clj
 [macroz/archi "0.1.2"]
