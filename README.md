@@ -11,7 +11,7 @@ Usage
 Add to your project.clj:
 
 ```clj
-[macroz/archi "0.1.0"]
+[macroz/archi "0.1.1"]
 ```
 
 Run in your favourite REPL:
