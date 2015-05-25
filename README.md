@@ -31,7 +31,7 @@ You should see something like this:
 
 [Example as interactive HTML](https://rawgit.com/Macroz/archi/master/examples/archi.html)
 
-See also [archi-example](http://www.github.com/Macroz/archi-example).
+See also [archi-example](http://www.github.com/Macroz/archi-example) for a more elaborate use case.
 
 Future Plans
 ------------
