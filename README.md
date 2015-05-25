@@ -1,4 +1,4 @@
-archi
+archi  [![Build Status](https://travis-ci.org/Macroz/archi.svg?branch=master)](https://travis-ci.org/Macroz/archi)
 =====
 
 > Draw (architecture) diagrams as easily as Archi.
@@ -27,8 +27,8 @@ Open the generated archi.html in your favourite browser.
 
 You should see something like this:
 
-![Example graph](examples/archi.svg?raw=true)
-![Example HTML](examples/archi.html?raw=true)
+![Example graph](https://rawgithub.com/Macroz/archi/examples/archi.svg)
+[Example HTML](https://rawgithub.com/Macroz/archi/examples/archi.html)
 
 See also [archi-example](http://www.github.com/Macroz/archi-example).
 
