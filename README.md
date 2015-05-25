@@ -8,14 +8,27 @@ Use a convenient DSL for describing your diagrams and get an interactive HTML vi
 Usage
 -----
 
-    (use '[archi.core])
+Add to your project.clj:
 
-    (defnodes Archi World)
-    (def features [(feature ["Hello"] [Archi World])])
+```clj
+[macroz/archi "0.1.0"]
+```
 
-    (render! features)
+Run in your favourite REPL:
 
-Open archi.html in your favourite browser.
+```clj
+> (use '[archi.core])
+> (defnodes Archi World)
+> (def features [(feature ["Hello"] [Archi World])])
+> (render! features)
+```
+
+Open the generated archi.html in your favourite browser.
+
+You should see something like this:
+
+![Example graph](examples/archi.svg?raw=true)
+![Example HTML](examples/archi.html?raw=true)
 
 See also [archi-example](http://www.github.com/Macroz/archi-example).
 
