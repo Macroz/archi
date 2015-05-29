@@ -188,11 +188,11 @@ var edge;\n
      "
 "]))
 
-(defn wrap-html [svg styles scripts]
+(defn wrap-html [filename svg styles scripts]
   (html [:html
          [:head
           [:meta {:content "text-html; charset=utf-8" :http-equiv "Content-type"}]
-          [:title "Microsoft Supply Chain Architecture"]
+          [:title filename]
           styles]
          svg
          scripts]))
@@ -222,6 +222,6 @@ var edge;\n
                   (remove-viewbox))
          styles [:style ""]
          scripts (make-scripts edges)
-         html (wrap-html svg styles scripts)]
+         html (wrap-html filename svg styles scripts)]
     (spit (str filename ".svg") svg)
     (spit (str filename ".html") html)))
