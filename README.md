@@ -36,12 +36,18 @@ See also [archi-example](http://www.github.com/Macroz/archi-example) for a more 
 Future Plans
 ------------
 
-- Tool version that works with java -jar and evals your definitions
+In rough priority order.
+
+- Docstrings
+- Document options
+- More complex examples
+- Easy customization of styles for common use cases
 - Extract interaction support to tangle or other library
+- Tool version that works with java -jar and evals your definitions
 - Replace Graphviz with something more dynamic
 - Hierarchical graphs with ability to expand nodes
 
-Suggestions welcome!
+Suggestions, and pull requests, welcome!
 
 License
 -------
