@@ -64,7 +64,7 @@
   (when (described-path? path) (first path)))
 
 (defn make-feature-edge [feature path n1 n2]
-  (let [color (random-color)
+  (let [color (:color feature)
         short-desc (feature-short-desc feature)
         full-desc (feature-full-desc feature)
         path-desc (path-desc path)
@@ -77,11 +77,13 @@
                         :tooltip full-desc}]))
 
 (defn feature->edges [feature]
-  (apply concat (for [path (:paths feature)]
-                  (let [without-desc-path (if (described-path? path) (rest path) path)]
-                    (map (partial make-feature-edge feature path)
-                         without-desc-path
-                         (rest without-desc-path))))))
+  (let [color (random-color)
+        feature (assoc feature :color color)]
+    (apply concat (for [path (:paths feature)]
+                    (let [without-desc-path (if (described-path? path) (rest path) path)]
+                      (map (partial make-feature-edge feature path)
+                           without-desc-path
+                           (rest without-desc-path)))))))
 
 
 (defn make-scripts [edges]
