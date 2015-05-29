@@ -36,6 +36,8 @@ See also [archi-example](http://www.github.com/Macroz/archi-example) for a more 
 Future Plans
 ------------
 
+- Tool version that works with java -jar and evals your definitions
+- Extract interaction support to tangle or other library
 - Replace Graphviz with something more dynamic
 - Hierarchical graphs with ability to expand nodes
 
