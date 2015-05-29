@@ -25,9 +25,11 @@ Open the generated archi.html in your favourite browser.
 
 You should see something like this:
 
-![Example graph](https://rawgit.com/Macroz/archi/master/examples/archi.svg)
+![Example graph](https://rawgit.com/Macroz/archi/master/examples/hello.svg)
 
-[Example as interactive HTML](https://rawgit.com/Macroz/archi/master/examples/archi.html)
+[Example as interactive HTML](https://rawgit.com/Macroz/archi/master/examples/hello.html)
+
+It's possible to style the nodes and edges by passing :node->descriptor and :edge->descriptor parameters to the render-method. This functionality uses standard [tangle](https://www.github.com/Macroz/tangle) features.
 
 See also [archi-example](http://www.github.com/Macroz/archi-example) for a more elaborate use case.
 
