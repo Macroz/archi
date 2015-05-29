@@ -1,4 +1,4 @@
-(defproject macroz/archi "0.1.2"
+(defproject macroz/archi "0.1.3"
   :description "Draw (architecture) diagrams as easily as Archi."
   :url "https://github.com/Macroz/archi"
   :license {:name "Eclipse Public License"
