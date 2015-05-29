@@ -54,12 +54,11 @@
   (is (= "desc" (path-desc ["desc" 1 2 3]))))
 
 (deftest make-feature-edge-test
-  (let [feature {:id :fid :descriptions ["1st" "2nd"]}
+  (let [feature {:id :fid :descriptions ["1st" "2nd"] :color "#color"}
         path ["pd" 1 2]
         n1 {:id :n1}
         n2 {:id :n2}]
-    (with-redefs [gensym (fn [id] (str "gen" id))
-                  random-color (fn [] "#color")]
+    (with-redefs [gensym (fn [id] (str "gen" id))]
       (is (= [:n1 :n2 {:id "genedge"
                        :feature :fid
                        :color "#color"
@@ -69,7 +68,8 @@
              (make-feature-edge feature path n1 n2))))))
 
 (deftest feature->edges-test
-  (with-redefs [make-feature-edge (fn [feature path n1 n2] (vector (first path) n1 n2))]
+  (with-redefs [make-feature-edge (fn [feature path n1 n2] (vector (first path) n1 n2))
+                random-color (fn [] "#color")]
     (is (= [["pd1" 1 2] ["pd1" 2 3] ["pd2" 1 3]]
            (feature->edges {:paths [["pd1" 1 2 3]
                                     ["pd2" 1 3]]})))))
