@@ -199,15 +199,6 @@ var edge;\n
          svg
          scripts]))
 
-(defn dot->svg [s]
-  (let [{:keys [out err]} (sh/sh "dot" "-Tsvg" :in s)]
-    (or
-     out
-     (println err))))
-
-(defn remove-viewbox [svg]
-  (string/replace svg #"viewBox=\"[^\"]+\"" ""))
-
 (defn render! [features & opts]
   (let [{:keys [node->descriptor edge->descriptor filename]
          :or {node->descriptor (fn [node] node) edge->descriptor (fn [i1 i2 m] m) filename "archi"}} opts
@@ -220,8 +211,7 @@ var edge;\n
                   :node->descriptor node->descriptor
                   :edge->descriptor edge->descriptor}
          svg (->> (tangle/graph->dot nodes edges options)
-                  (dot->svg)
-                  (remove-viewbox))
+                  (tangle/dot->svg))
          styles [:style ""]
          scripts (make-scripts edges)
          html (wrap-html filename svg styles scripts)]
