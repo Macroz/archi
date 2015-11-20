@@ -92,27 +92,53 @@
 var originalStyles = {};\n
 
 function highlightNode(id) {\n
-    document.getElementById(id).children[1].setAttribute('fill', '#000000');\n
-    document.getElementById(id).children[2].setAttribute('fill', '#ffffff');\n
-    document.getElementById(id).children[2].setAttribute('stroke', '#ffffff');\n
+    var o = originalStyles[id] || {c1: {}, c2: {}};
+    var c1 = document.getElementById(id).children[1];
+    var c2 = document.getElementById(id).children[2];
+    o.c1.fill = c1.getAttribute('fill');
+    o.c1.stroke = c1.getAttribute('stroke');
+    o.c2.fill = c2.getAttribute('fill');
+    o.c2.stroke = c2.getAttribute('stroke');
+    originalStyles[id] = o;
+    c1.setAttribute('fill', '#000000');\n
+    c1.setAttribute('stroke', '#000000');\n
+    c2.setAttribute('fill', '#ffffff');\n
+    c2.setAttribute('stroke', '#ffffff');\n
 }\n
 
 function highlightEdge(id) {\n
-    document.getElementById(id).children[1].setAttribute('stroke-width', '8');\n
-    document.getElementById(id).children[2].setAttribute('stroke-width', '8');\n
-    document.getElementById(id).children[2].children[0].children[0].setAttribute('font-size', '24');\n
+    var o = originalStyles[id] || {};
+    var c1 = document.getElementById(id).children[1];
+    var c2 = document.getElementById(id).children[2];
+    var l = document.getElementById(id).children[2].children[0].children[0];
+    o.strokeWidth = c1.getAttribute('stroke-width');\n
+    o.fontSize = l.getAttribute('font-size');\n
+    originalStyles[id] = o;
+    c1.setAttribute('stroke-width', '8');\n
+    c2.setAttribute('stroke-width', '8');\n
+    l.setAttribute('font-size', '24');\n
 }\n
 
 function restoreNode(id) {\n
-    document.getElementById(id).children[1].setAttribute('fill', originalStyles[id].fill);\n
-    document.getElementById(id).children[2].setAttribute('fill', originalStyles[id].stroke);
-    document.getElementById(id).children[2].setAttribute('stroke', originalStyles[id].stroke);
+    var o = originalStyles[id];
+    var c1 = document.getElementById(id).children[1];
+    var c2 = document.getElementById(id).children[2];
+    c1.setAttribute('fill', o.c1.fill);\n
+    c1.setAttribute('stroke', o.c1.stroke);\n
+    c2.setAttribute('fill', o.c2.fill);\n
+    c2.setAttribute('stroke', o.c2.stroke);\n
+    delete originalStyles[id]
 }\n
 
 function restoreEdge(id) {\n
-    document.getElementById(id).children[1].setAttribute('stroke-width', '1');\n
-    document.getElementById(id).children[2].setAttribute('stroke-width', '1');\n
-    document.getElementById(id).children[2].children[0].children[0].setAttribute('font-size', '12');\n
+    var o = originalStyles[id];
+    var c1 = document.getElementById(id).children[1];
+    var c2 = document.getElementById(id).children[2];
+    var l = document.getElementById(id).children[2].children[0].children[0];
+    c1.setAttribute('stroke-width', o.strokeWidth);\n
+    c2.setAttribute('stroke-width', o.strokeWidth);\n
+    l.setAttribute('font-size', o.fontSize);\n
+    delete originalStyles[id]
 }\n
 
 function enterNode(event) {\n
@@ -144,10 +170,7 @@ var node;\n
      (map (fn [n]
             (str "node = document.getElementById('" n "');\n
                            node.addEventListener('mouseenter', enterNode);\n
-                           node.addEventListener('mouseleave', leaveNode);\n
-                           originalStyles['" n "'] = {};
-                           originalStyles['" n "'].fill = node.children[1].getAttribute('fill');\n
-                           originalStyles['" n "'].stroke = node.children[2].getAttribute('stroke');\n"))
+                           node.addEventListener('mouseleave', leaveNode);\n"))
           (sort (distinct (mapcat #(take 2 %) edges))))
 
      "
