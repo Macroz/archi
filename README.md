@@ -15,10 +15,10 @@ Add to your project.clj:
 Run in your favourite REPL:
 
 ```clj
-> (use '[archi.core])
-> (defnodes Archi World)
-> (def features [(feature ["Hello"] [Archi World])])
-> (render! features)
+(use '[archi.core])
+(defnodes Archi World)
+(def features [(feature ["Hello"] [Archi World])])
+(render! features)
 ```
 
 Open the generated archi.html in your favourite browser.
