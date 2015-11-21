@@ -95,8 +95,6 @@
 
 (defn make-scripts [edges]
   (let [edges-by-feature (group-by (comp :feature #(nth % 2)) edges)]
-    (println edges)
-    (println edges-by-feature)
     [:script {:language "javascript"}
      (str "\n"
           (slurp "src/archi/highlight.js")
