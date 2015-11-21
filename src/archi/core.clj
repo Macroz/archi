@@ -93,24 +93,26 @@
        (apply str (interpose ", " (map wrap-in-quotes coll)))
        "]"))
 
+(defn str-map [f coll]
+  (apply str (map f coll)))
+
 (defn make-scripts [edges]
   (let [edges-by-feature (group-by (comp :feature #(nth % 2)) edges)]
     [:script {:language "javascript"}
      (str "\n"
           (slurp "src/archi/highlight.js")
           "var data = {};\n"
-          (apply str (map (fn [[n1 n2 m]]
-                            (str "data['" n1 "'] = data['" n2 "'] = {nodes: ['" n1 "', '" n2 "'], edges: ['" (:id m) "']};\n"))
-                          edges))
-          (apply str (map (fn [edges]
-                            (let [nodes (distinct (sort (mapcat #(take 2 %) edges)))
-                                  edges (distinct (sort (map (fn [[n1 n2 m]] (:id m)) edges)))]
-                              (str "var nodes = " (js-array nodes) ";\n"
-                                   "var edges = " (js-array edges) ";\n"
-                                   "var d = {nodes: nodes, edges: edges};\n"
-                                   (apply str (for [e edges]
-                                                (str "data['" e "'] = d;\n"))))))
-                          (vals edges-by-feature)))
+          (str-map (fn [[n1 n2 m]]
+                     (str "data['" n1 "'] = data['" n2 "'] = {nodes: ['" n1 "', '" n2 "'], edges: ['" (:id m) "']};\n"))
+                   edges)
+          (str-map (fn [edges]
+                     (let [nodes (distinct (sort (mapcat #(take 2 %) edges)))
+                           edges (distinct (sort (map (fn [[n1 n2 m]] (:id m)) edges)))]
+                       (str "var d = {nodes: " (js-array nodes) ", edges: " (js-array edges) "};\n"
+                            (str-map (fn [e]
+                                       (str "data['" e "'] = d;\n"))
+                                     edges))))
+                   (vals edges-by-feature))
           "highlight(data);\n"
           )]))
 
