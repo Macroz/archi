@@ -88,130 +88,30 @@
 
 (defn make-scripts [edges]
   (let [edges-by-feature (group-by (comp :feature #(nth % 2)) edges)]
-    [:script {:language "javascript"} "
-var originalStyles = {};\n
-
-function highlightNode(id) {\n
-    var o = originalStyles[id] || {c1: {}, c2: {}};
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    o.c1.fill = c1.getAttribute('fill');
-    o.c1.stroke = c1.getAttribute('stroke');
-    o.c2.fill = c2.getAttribute('fill');
-    o.c2.stroke = c2.getAttribute('stroke');
-    originalStyles[id] = o;
-    c1.setAttribute('fill', '#000000');\n
-    c1.setAttribute('stroke', '#000000');\n
-    c2.setAttribute('fill', '#ffffff');\n
-    c2.setAttribute('stroke', '#ffffff');\n
-}\n
-
-function highlightEdge(id) {\n
-    var o = originalStyles[id] || {};
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    var l = document.getElementById(id).children[2].children[0].children[0];
-    o.strokeWidth = c1.getAttribute('stroke-width');\n
-    o.fontSize = l.getAttribute('font-size');\n
-    originalStyles[id] = o;
-    c1.setAttribute('stroke-width', '8');\n
-    c2.setAttribute('stroke-width', '8');\n
-    l.setAttribute('font-size', '24');\n
-}\n
-
-function restoreNode(id) {\n
-    var o = originalStyles[id];
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    c1.setAttribute('fill', o.c1.fill);\n
-    c1.setAttribute('stroke', o.c1.stroke);\n
-    c2.setAttribute('fill', o.c2.fill);\n
-    c2.setAttribute('stroke', o.c2.stroke);\n
-    delete originalStyles[id]
-}\n
-
-function restoreEdge(id) {\n
-    var o = originalStyles[id];
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    var l = document.getElementById(id).children[2].children[0].children[0];
-    c1.setAttribute('stroke-width', o.strokeWidth);\n
-    c2.setAttribute('stroke-width', o.strokeWidth);\n
-    l.setAttribute('font-size', o.fontSize);\n
-    delete originalStyles[id]
-}\n
-
-function enterNode(event) {\n
-    var node = event.target;\n"
-     (map (fn [[n1 n2 m]]
-            (str "if (node.id === '" n1 "' || node.id === '" n2 "') {\n
-                         highlightNode('" n1 "');\n
-                         highlightNode('" n2 "');\n
-                         highlightEdge('" (:id m) "');\n
-                     }\n"))
-          edges)
-     "
-}
-
-function leaveNode(event) {\n
-    var node = event.target;\n"
-     (map (fn [[n1 n2 m]]
-            (str "if (node.id === '" n1 "' || node.id === '" n2 "') {\n
-                         restoreNode('" n1 "');\n
-                         restoreNode('" n2 "');\n
-                         restoreEdge('" (:id m) "');\n
-                     }\n"))
-          edges)
-     "
-}
-
-var node;\n
-"
-     (map (fn [n]
-            (str "node = document.getElementById('" n "');\n
-                           node.addEventListener('mouseenter', enterNode);\n
-                           node.addEventListener('mouseleave', leaveNode);\n"))
-          (sort (distinct (mapcat #(take 2 %) edges))))
-
-     "
-
-function enterEdge(event) {\n
-    var edge = event.target;\n"
-     (map (fn [[n1 n2 m]]
-            (str "if (edge.id === '" (:id m) "') {\n"
-                 (string/join "" (map (fn [[n1 n2 m]]
-                                        (str "highlightNode('" n1 "');\n
-                         highlightNode('" n2 "');\n
-                         highlightEdge('" (:id m) "');\n"))
-                                      (edges-by-feature (:feature m))))
-                 "}\n"))
-          edges)
-     "
-                           }\n
-
-                            function leaveEdge(event) {\n
-                                                       var edge = event.target;\n"
-     (map (fn [[n1 n2 m]]
-            (str "if (edge.id === '" (:id m) "') {\n"
-                 (string/join "" (map (fn [[n1 n2 m]]
-                                        (str "restoreNode('" n1 "');\n
-                         restoreNode('" n2 "');\n
-                         restoreEdge('" (:id m) "');\n"))
-                                      (edges-by-feature (:feature m))))
-                 "}\n"))
-          edges)
-     "
-}\n
-
-var edge;\n
-"
-     (map (fn [[n1 n2 m]]
-            (str "edge = document.getElementById('" (:id m) "');\n
-                           edge.addEventListener('mouseenter', enterEdge);\n
-                           edge.addEventListener('mouseleave', leaveEdge);\n"))
-          edges)
-     "
-"]))
+    (println edges)
+    (println edges-by-feature)
+    [:script {:language "javascript"}
+     (str "\n"
+          (slurp "src/archi/highlight.js")
+          "var data = {};\n"
+          (apply str (map (fn [[n1 n2 m]]
+                            (str "data['" n1 "'] = data['" n2 "'] = {nodes: ['" n1 "', '" n2 "'], edges: ['" (:id m) "']};\n"))
+                          edges))
+          (apply str (map (fn [edges]
+                            (let [nodes (distinct (sort (mapcat #(take 2 %) edges)))
+                                  edges (distinct (sort (map (fn [[n1 n2 m]] (:id m)) edges)))]
+                              (str "var nodes = ["
+                                   (apply str (interpose ", " (map (fn [n] (str "'" n "'")) nodes)))
+                                   "];\n"
+                                   "var edges = ["
+                                   (apply str (interpose ", " (map (fn [e] (str "'" e "'")) edges)))
+                                   "];\n"
+                                   "var d = {nodes: nodes, edges: edges};\n"
+                                   (apply str (for [e edges]
+                                                (str "data['" e "'] = d;\n"))))))
+                          (vals edges-by-feature)))
+          "highlight(data);\n"
+          )]))
 
 (defn wrap-html [filename svg styles scripts]
   (html [:html
