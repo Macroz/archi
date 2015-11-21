@@ -88,6 +88,11 @@
 (defn wrap-in-quotes [x]
   (str "'" x "'"))
 
+(defn js-array [coll]
+  (str "["
+       (apply str (interpose ", " (map wrap-in-quotes coll)))
+       "]"))
+
 (defn make-scripts [edges]
   (let [edges-by-feature (group-by (comp :feature #(nth % 2)) edges)]
     (println edges)
@@ -102,12 +107,8 @@
           (apply str (map (fn [edges]
                             (let [nodes (distinct (sort (mapcat #(take 2 %) edges)))
                                   edges (distinct (sort (map (fn [[n1 n2 m]] (:id m)) edges)))]
-                              (str "var nodes = ["
-                                   (apply str (interpose ", " (map wrap-in-quotes nodes)))
-                                   "];\n"
-                                   "var edges = ["
-                                   (apply str (interpose ", " (map wrap-in-quotes edges)))
-                                   "];\n"
+                              (str "var nodes = " (js-array nodes) ";\n"
+                                   "var edges = " (js-array edges) ";\n"
                                    "var d = {nodes: nodes, edges: edges};\n"
                                    (apply str (for [e edges]
                                                 (str "data['" e "'] = d;\n"))))))
