@@ -85,6 +85,8 @@
                            without-desc-path
                            (rest without-desc-path)))))))
 
+(defn wrap-in-quotes [x]
+  (str "'" x "'"))
 
 (defn make-scripts [edges]
   (let [edges-by-feature (group-by (comp :feature #(nth % 2)) edges)]
@@ -101,10 +103,10 @@
                             (let [nodes (distinct (sort (mapcat #(take 2 %) edges)))
                                   edges (distinct (sort (map (fn [[n1 n2 m]] (:id m)) edges)))]
                               (str "var nodes = ["
-                                   (apply str (interpose ", " (map (fn [n] (str "'" n "'")) nodes)))
+                                   (apply str (interpose ", " (map wrap-in-quotes nodes)))
                                    "];\n"
                                    "var edges = ["
-                                   (apply str (interpose ", " (map (fn [e] (str "'" e "'")) edges)))
+                                   (apply str (interpose ", " (map wrap-in-quotes edges)))
                                    "];\n"
                                    "var d = {nodes: nodes, edges: edges};\n"
                                    (apply str (for [e edges]
