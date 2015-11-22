@@ -117,27 +117,7 @@
           )]))
 
 (defn make-styles []
-  [:style
-   "text {\n"
-   "  font-size: 14;\n"
-   "  fill: #000;\n"
-   "}\n"
-   ".node polygon {\n"
-   "  fill: none;\n"
-   "}\n"
-   ".node .highlight {\n"
-   "  fill: #000;\n"
-   "}\n"
-   ".node text.highlight {\n"
-   "  fill: #fff;\n"
-   "  stroke: #fff;\n"
-   "}\n"
-   ".edge .highlight {\n"
-   "  stroke-width: 8;\n"
-   "}\n"
-   ".edge text.highlight {\n"
-   "  font-size: 24;\n"
-   "}\n"])
+  [:style (slurp "src/archi/highlight.css")])
 
 (defn wrap-html [filename svg styles scripts]
   (html [:html
