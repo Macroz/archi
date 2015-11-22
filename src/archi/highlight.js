@@ -1,54 +1,27 @@
 function highlight(data) {
-  var originalStyles = {};
-  
   function highlightNode(id) {
-    var o = originalStyles[id] || {c1: {}, c2: {}};
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    o.c1.fill = c1.getAttribute('fill');
-    o.c1.stroke = c1.getAttribute('stroke');
-    o.c2.fill = c2.getAttribute('fill');
-    o.c2.stroke = c2.getAttribute('stroke');
-    originalStyles[id] = o;
-    c1.setAttribute('fill', '#000000');
-    c1.setAttribute('stroke', '#000000');
-    c2.setAttribute('fill', '#ffffff');
-    c2.setAttribute('stroke', '#ffffff');
+    document.getElementById(id).children[1].removeAttribute('fill');
+    document.getElementById(id).children[2].removeAttribute('fill');
+    document.getElementById(id).children[1].setAttribute('class', 'highlight');
+    document.getElementById(id).children[2].setAttribute('class', 'highlight');
   }
 
   function highlightEdge(id) {
-    var o = originalStyles[id] || {};
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    var l = document.getElementById(id).children[2].children[0].children[0];
-    o.strokeWidth = c1.getAttribute('stroke-width');
-    o.fontSize = l.getAttribute('font-size');
-    originalStyles[id] = o;
-    c1.setAttribute('stroke-width', '8');
-    c2.setAttribute('stroke-width', '8');
-    l.setAttribute('font-size', '24');
+    document.getElementById(id).children[1].setAttribute('class', 'highlight');
+    document.getElementById(id).children[2].setAttribute('class', 'highlight');
+    document.getElementById(id).children[2].children[0].children[0].removeAttribute('font-size');
+    document.getElementById(id).children[2].children[0].children[0].setAttribute('class', 'highlight');
   }
 
   function restoreNode(id) {
-    var o = originalStyles[id];
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    c1.setAttribute('fill', o.c1.fill);
-    c1.setAttribute('stroke', o.c1.stroke);
-    c2.setAttribute('fill', o.c2.fill);
-    c2.setAttribute('stroke', o.c2.stroke);
-    delete originalStyles[id]
+    document.getElementById(id).children[1].removeAttribute('class');
+    document.getElementById(id).children[2].removeAttribute('class');
   }
 
   function restoreEdge(id) {
-    var o = originalStyles[id];
-    var c1 = document.getElementById(id).children[1];
-    var c2 = document.getElementById(id).children[2];
-    var l = document.getElementById(id).children[2].children[0].children[0];
-    c1.setAttribute('stroke-width', o.strokeWidth);
-    c2.setAttribute('stroke-width', o.strokeWidth);
-    l.setAttribute('font-size', o.fontSize);
-    delete originalStyles[id]
+    document.getElementById(id).children[1].removeAttribute('class');
+    document.getElementById(id).children[2].removeAttribute('class');
+    document.getElementById(id).children[2].children[0].children[0].removeAttribute('class');
   }
 
   function forData(d, nodeFn, edgeFn) {
