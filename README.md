@@ -36,8 +36,6 @@ See also [archi-example](http://www.github.com/Macroz/archi-example) for a more 
 Future Plans
 ------------
 
-In rough priority order.
-
 - Docstrings
 - Document options
 - More complex examples
@@ -46,6 +44,7 @@ In rough priority order.
 - Tool version that works with java -jar and evals your definitions
 - Replace Graphviz with something more dynamic
 - Hierarchical graphs with ability to expand nodes
+- Dynamic, when tangle is too
 
 Suggestions, and pull requests, welcome!
 
