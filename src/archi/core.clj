@@ -17,7 +17,7 @@
 
 (defn random-color []
   (let [i @random-color-seq]
-    (swap! random-color-seq (comp #(mod % 15) inc))
+    (swap! random-color-seq (comp #(mod % 18) inc))
     (case i
       0 "#ff0000"
       1 "#00ff00"
@@ -33,7 +33,10 @@
       11 "#ff0088"
       12 "#ff8800"
       13 "#00ff88"
-      14 "#88ff00")))
+      14 "#88ff00"
+      15 "#338800"
+      16 "#003388"
+      17 "#880033")))
 
 (defmacro defnode [id]
   `(def ~id (node ~(str id))))
