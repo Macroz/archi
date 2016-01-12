@@ -1,0 +1,25 @@
+text {
+    font-size: 14;
+    fill: #000;
+}
+
+.node polygon {
+    fill: none;
+}
+
+.node .highlight {
+    fill: #000;
+}
+
+.node text.highlight {
+    fill: #fff;
+    stroke: #fff;
+}
+
+.edge .highlight {
+    stroke-width: 8;
+}
+
+.edge text.highlight {
+    font-size: 24;
+}
